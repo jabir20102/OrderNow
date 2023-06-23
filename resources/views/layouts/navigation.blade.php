@@ -15,6 +15,12 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('restaurants.edit')" :active="request()->routeIs('restaurants.edit')">
+                        {{ __('Restaurant') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('restaurant.photos.index')" :active="request()->routeIs('restaurant.photos.index')">
+                        {{ __('Restaurant Photos') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -70,6 +76,12 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('restaurants.edit')" :active="request()->routeIs('restaurants.edit')">
+                {{ __('Restaurant') }}
+            </x-nav-link>
+            <x-responsive-nav-link :href="route('restaurant.photos.index')" :active="request()->routeIs('restaurant.photos.index')">
+                {{ __('Restaurant Photos') }}
+            </x-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->
