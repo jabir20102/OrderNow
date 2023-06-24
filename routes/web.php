@@ -4,6 +4,8 @@ use App\Models\Restaurant;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\PhotoController;
+use App\Http\Controllers\DishController;
+use App\Http\Controllers\DishPhotoController;
 use App\Http\Controllers\ProfileController;
 
 /*
@@ -21,9 +23,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -32,6 +31,8 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::group(['middleware' => 'auth'], function () {
+    //  Dashboard
+    Route::get('/dashboard', [RestaurantController::class, 'dashboard'])->name('dashboard');
     // Restaurant routes
     Route::get('/restaurants/edit', [RestaurantController::class, 'edit'])->name('restaurants.edit');
     Route::put('/restaurants/{restaurant}/update', [RestaurantController::class, 'update'])->name('restaurants.update');
@@ -40,6 +41,17 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/restaurants/photos', [PhotoController::class, 'index'])->name('restaurant.photos.index');
     Route::post('/restaurants/photos',[PhotoController::class, 'store'])->name('restaurant.photos.store');
     Route::delete('restaurants/photos/{photo}', [PhotoController::class, 'destroy'])->name('restaurant.photos.destroy');
+    
+    //   Dish Photos
+    Route::get('restaurant/dishes', [DishController::class, 'index'])->name('dishes.index');
+    Route::get('restaurant/dishes/create', [DishController::class, 'create'])->name('dishes.create');
+    Route::post('restaurant/dishes/store', [DishController::class, 'store'])->name('dishes.store');
+
+     //  Dishes Photos routes
+     Route::get('/restaurants/dishes/{id}/photos', [DishPhotoController::class, 'index'])->name('dishes.photos.index');
+     Route::post('/restaurants/dishes/{dish}/photos',[DishPhotoController::class, 'store'])->name('dishes.photos.store');
+     Route::delete('restaurants/dishes/photos/{photo}', [DishPhotoController::class, 'destroy'])->name('dishes.photos.destroy');
+     
 });
 
 require __DIR__.'/auth.php';

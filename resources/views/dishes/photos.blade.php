@@ -2,7 +2,7 @@
 
 @section('header')
     <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-        {{ __('Restaurant Photos') }}
+        {{  $dish->name}}
     </h2>
 @endsection
 
@@ -13,7 +13,7 @@
                     {{-- <div class="card-header">{{ __('Manage Photos') }}</div> --}}
 
                     <div class="card-body">
-                        <form action="{{ route('restaurant.photos.store', $restaurant) }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('dishes.photos.store', $dish) }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
                                 <label for="image">{{ __('Upload Photo') }}</label>
@@ -28,17 +28,15 @@
                         </form>
 
                         <hr>
-
-                        <h4>{{ __('Photos') }}</h4>
                         <div class="row">
-                            @foreach($photos as $photo)
+                            @foreach($dish->photos as $photo)
                                 <div class="col-md-4 mt-3">
                                     <div class="card">
-                                        <a href="#" class="photo-link" data-images="{{ json_encode($photo->restaurant->photos->pluck('image')) }}">
-                                            <img src="{{ asset('storage/' . $photo->url) }}" class="card-img-top" alt="Photo">
+                                        <a href="#" class="photo-link" >
+                                            <img src="{{ asset('storage/' . $photo->path) }}" class="card-img-top" alt="Photo">
                                         </a>
                                         <div class="card-body">
-                                            <form action="{{ route('restaurant.photos.destroy', $photo) }}" method="POST">
+                                            <form action="{{ route('dishes.photos.destroy', $photo) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-sm float-right"

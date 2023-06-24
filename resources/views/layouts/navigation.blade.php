@@ -21,6 +21,12 @@
                     <x-nav-link :href="route('restaurant.photos.index')" :active="request()->routeIs('restaurant.photos.index')">
                         {{ __('Restaurant Photos') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('dishes.index')" :active="request()->routeIs('dishes.index')">
+                        {{ __('Dishes') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('dishes.create')" :active="request()->routeIs('dishes.create')">
+                        {{ __('Add a new Dish') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -81,6 +87,9 @@
             </x-nav-link>
             <x-responsive-nav-link :href="route('restaurant.photos.index')" :active="request()->routeIs('restaurant.photos.index')">
                 {{ __('Restaurant Photos') }}
+            </x-nav-link>
+            <x-responsive-nav-link :href="route('dishes.create')" :active="request()->routeIs('dishes.create')">
+                {{ __('Add a new Dish') }}
             </x-nav-link>
         </div>
 
