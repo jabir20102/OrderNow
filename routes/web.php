@@ -7,6 +7,7 @@ use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\DishController;
 use App\Http\Controllers\DishPhotoController;
 use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Artisan;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,16 +43,16 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/restaurants/photos',[PhotoController::class, 'store'])->name('restaurant.photos.store');
     Route::delete('restaurants/photos/{photo}', [PhotoController::class, 'destroy'])->name('restaurant.photos.destroy');
     
-    //   Dish Photos
+    //   Dish 
     Route::get('restaurant/dishes', [DishController::class, 'index'])->name('dishes.index');
     Route::get('restaurant/dishes/create', [DishController::class, 'create'])->name('dishes.create');
     Route::post('restaurant/dishes/store', [DishController::class, 'store'])->name('dishes.store');
-
-     //  Dishes Photos routes
-     Route::get('/restaurants/dishes/{id}/photos', [DishPhotoController::class, 'index'])->name('dishes.photos.index');
-     Route::post('/restaurants/dishes/{dish}/photos',[DishPhotoController::class, 'store'])->name('dishes.photos.store');
-     Route::delete('restaurants/dishes/photos/{photo}', [DishPhotoController::class, 'destroy'])->name('dishes.photos.destroy');
-     
+    
 });
+Route::get('commands/{command}', function($command){
+    Artisan::call($command);
+    return Artisan::output();
+   });
+    
 
 require __DIR__.'/auth.php';

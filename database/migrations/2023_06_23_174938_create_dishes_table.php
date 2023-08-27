@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('ingredients');
+            $table->text('image');
             $table->decimal('price', 8, 2);
-            $table->unsignedBigInteger('restaurant_id');
+            $table->integer('restaurant_id');
             $table->timestamps();
 
-            $table->foreign('restaurant_id')->references('id')->on('restaurants')->onDelete('cascade');
             });
     }
 

@@ -23,7 +23,7 @@ class CustomerController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
+            return response()->json(['errors' => $validator->errors()], 400);
         }
 
         $customer = Customer::create([
@@ -33,18 +33,20 @@ class CustomerController extends Controller
         ]);
 
         $token = $customer->createToken('auth_token')->plainTextToken;
-
-        return response()->json(['token' => $token], 201);
+        $id= $customer->id;
+        return response()->json(['token' => $token,'customer_id'=>$id], 200);
     }
 
     public function login(Request $request)
     {
-        $credentials = $request->only('email', 'password');
+          $credentials = $request->only('email', 'password');
 
         if (Auth::guard('customer')->attempt($credentials)) {
             $customer = Auth::guard('customer')->user();
             $token = $customer->createToken('auth_token')->plainTextToken;
-            return response()->json(['token' => $token], 200);
+            $id=$customer->id;
+            
+        return response()->json(['token' => $token,'customer_id'=>$id], 200);
         } else {
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
@@ -100,18 +102,18 @@ class CustomerController extends Controller
             return response()->json(['message' => 'Customer not found'], 404);
         }
 
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'email' => 'required|email|unique:customers,email,' . $id,
-            'password' => 'required|min:8',
-        ]);
+        // $validator = Validator::make($request->all(), [
+        //     'name' => 'required',
+        //     'email' => 'required|email|unique:customers,email,' . $id,
+        //     'password' => 'required|min:8',
+        // ]);
 
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
+        // if ($validator->fails()) {
+        //     return response()->json(['errors' => $validator->errors()], 422);
+        // }
 
         $customerData = $request->all();
-        // $customerData['password'] = Hash::make($request->input('password'));
+        $customerData['password'] = Hash::make($request->input('password'));
 
         $customer->update($customerData);
 

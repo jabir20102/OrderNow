@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\CustomerController;
 use App\Http\Controllers\API\RestaurantController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\OrderItemController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,17 +23,24 @@ use App\Http\Controllers\API\RestaurantController;
 // });
 
 
-Route::post('register', [CustomerController::class,'register']);
-Route::post('login', [CustomerController::class,'login']);
+Route::post('register', [CustomerController::class, 'register']);
+Route::post('login', [CustomerController::class, 'login']);
 
+
+Route::apiResource('restaurants', RestaurantController::class);
+Route::get('dishes', [RestaurantController::class, 'best_dishes']);
+Route::get('restaurants/{id}/dishes', [RestaurantController::class, 'dishes']);
+
+Route::apiResource('customers', CustomerController::class);
+
+Route::post('orders', [OrderController::class, 'store']);
+Route::post('order-items', [OrderItemController::class, 'store']);
+Route::get('orders', [OrderController::class, 'index']);
+Route::get('orders/{order}', [OrderController::class, 'show']);
+Route::delete('orders/{order}', [OrderController::class, 'destroy']);
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::apiResource('restaurants', RestaurantController::class);
-    Route::get('restaurants/{id}/dishes', [RestaurantController::class,'dishes']);
     //  http://127.0.0.1:8000/api/restaurants  
     //  http://127.0.0.1:8000/api/restaurants/1
     //  http://127.0.0.1:8000/api/restaurants/1/dishes
-    Route::apiResource('customers', CustomerController::class);
-
 });
-

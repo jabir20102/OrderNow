@@ -11,8 +11,4 @@ class DishPhotos extends Model
     
     protected $fillable = [ 'path'];
 
-    public function dish()
-    {
-        return $this->belongsTo(Dish::class);
-    }
 }

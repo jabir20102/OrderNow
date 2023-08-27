@@ -13,9 +13,8 @@ class RestaurantController extends Controller
     public function dashboard()
     {
         $id=  Auth::id();
-        $orders = Order::where('restaurant_id', $id)
-        ->where('status', 0)
-        ->get();
+         $orders = Order::with('orderItems', 'customer', 'orderItems.dish')->where('restaurant_id', $id)->get();
+        
         return view('dashboard', compact('orders'));
     }
 

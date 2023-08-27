@@ -30,8 +30,12 @@ public function store(Request $request)
         'name' => 'required',
         'ingredients' => 'required',
         'price' => 'required',
+        'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         'restaurant_id' => 'required',
     ]);
+
+    $imagePath = $request->file('image')->store('photos', 'public');
+    $validatedData['image'] = $imagePath;
 
     $dish = Dish::create($validatedData);
 

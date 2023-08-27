@@ -10,14 +10,15 @@ class RestaurantController extends Controller
 {
     public function index()
     {
-        $restaurants = Restaurant::all();
+        $restaurants = Restaurant::with('photos')->get();
         return response()->json($restaurants);
     }
 
     public function show($id)
     {
-        $restaurant = Restaurant::find($id)
+        $restaurant = Restaurant::where('id',$id)
         ->with('photos')
+        ->with('dishes')
         ->first();
         if (!$restaurant) {
             return response()->json(['message' => 'Restaurant not found'], 404);
@@ -27,7 +28,16 @@ class RestaurantController extends Controller
     public function dishes($id)
     {
         $dishes = Dish::where('restaurant_id', $id)
-        ->with('photos')
+        // ->with('reviews')  later on implented
+        ->get();
+        
+        return response()->json($dishes);
+    }
+    public function best_dishes()
+    {
+        $dishes = Dish::where('price','<', 200)
+        // ->with('reviews')  later on implented
+        ->with('restaurant') 
         ->get();
         
         return response()->json($dishes);

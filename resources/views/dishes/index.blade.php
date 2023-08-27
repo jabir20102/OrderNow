@@ -14,7 +14,7 @@
                 <div class="row ">
                     @foreach ($dishes as $dish)
                         <div class="card">
-                           <img src="{{sizeof($dish->photos)>0 ? asset('storage/' . $dish->photos[0]->path) :''}}" 
+                           <img src="{{ asset('storage/' . $dish->image) }}" 
                                 class="card-img-top"
                                 style="width: 300px;height: 200px;object-fit: cover;"
                                 alt="Dish Photo">
@@ -22,9 +22,7 @@
                                 <h5 class="card-title">{{ $dish->name }}</h5>
                                 <p class="card-text">{{ $dish->ingredients }}</p>
                                 <p class="card-text">Price: ${{ $dish->price }}</p>
-                                <div class="d-grid gap-2">
-                                    <a href="{{ route('dishes.photos.index', $dish) }}" class="btn btn-primary">Photos</a>
-                                </div>
+                                
                             </div>
                         </div>
                     @endforeach

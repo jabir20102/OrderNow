@@ -18,4 +18,9 @@ class Customer extends  Authenticatable
     protected $fillable = [
         'name', 'email', 'password', 'contact','address','coordinates'
     ];
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }

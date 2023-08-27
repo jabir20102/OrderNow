@@ -1,0 +1,121 @@
+
+
+import React, { useState,useRef } from 'react';
+import {
+  View,
+  Text,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+} from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import * as Animatable from 'react-native-animatable';
+
+import Urls from '../constants/Urls';
+
+const Slider = ({ images }) => {
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const handlePrevious = () => {
+    setActiveIndex((prevIndex) =>
+      prevIndex > 0 ? prevIndex - 1 : images.length - 1
+    );
+  };
+
+  const handleNext = () => {
+    setActiveIndex((prevIndex) =>
+      prevIndex < images.length - 1 ? prevIndex + 1 : 0
+    );
+  };
+  
+  
+
+  return (
+    <>
+      
+      <View style={styles.container}>
+        <Image
+          source={Urls.photo + images[activeIndex].url}
+          style={styles.image}
+        />
+        
+      </View>
+      
+
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.button} onPress={handlePrevious}>
+          <Icon name="chevron-left" size={20} color="black" />
+        </TouchableOpacity>
+
+        <View style={styles.bulletContainer}>
+          {images.map((_, index) => (
+            <TouchableOpacity
+              key={index}
+              style={[
+                styles.bullet,
+                {
+                  backgroundColor: index === activeIndex ? 'blue' : 'lightgray',
+                },
+              ]}
+              onPress={() => setActiveIndex(index)}
+            />
+          ))}
+        </View>
+
+        <TouchableOpacity style={styles.button} onPress={handleNext}>
+          <Icon name="chevron-right" size={20} color="black" />
+        </TouchableOpacity>
+      </View>
+      <Animatable.Image
+        animation="slideInLeft" // Animation type: slideInLeft
+        style={{width:200,height:200}}
+        source={Urls.photo + images[activeIndex].url}
+      />
+      <Text>{Urls.photo + images[activeIndex].url}</Text>
+    </>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    borderWidth: 1,
+    height: 200,
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+   fadingContainer: {
+    padding: 20,
+    backgroundColor: 'powderblue',
+  },
+  image: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover',
+  },
+  bulletContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginVertical: 16,
+  },
+  bullet: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    marginHorizontal: 5,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+  },
+  button: {
+    paddingVertical: 8,
+  },
+  buttonText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+});
+
+export default Slider;
